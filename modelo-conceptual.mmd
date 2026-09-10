@@ -1,0 +1,77 @@
+erDiagram
+
+    PERSONA {
+        string nombre
+        string correo
+        string pais
+    }
+
+    EDICION {
+        string nombre
+        int anio
+        date fecha_inicio
+        date fecha_fin
+        string estado_preparacion
+        string modalidad
+    }
+
+    SEDE {
+        string nombre
+        string direccion
+        string ciudad
+    }
+
+    SALA {
+        string nombre
+        int capacidad
+    }
+
+    SESION {
+        string titulo
+        string resumen
+        date fecha
+        time hora_inicial
+        time hora_final
+    }
+
+    TRANSMISION {
+        string plataforma
+        string enlace
+        string codigo_acceso
+    }
+
+    ACREDITACION {
+        string nombre
+        string descripcion
+    }
+
+    EMPRESA {
+        string nombre
+        string correo
+        string telefono
+    }
+
+    ASISTENTE {
+        string rol
+    }
+
+    PONENTE {
+        string biografia
+    }
+
+    CHARLA {
+        int minutos_preguntas
+    }
+
+    TALLER {
+        int cupo_practico
+        string requisitos_materiales
+    }
+
+    INSCRIPCION_EDICION {
+        boolean es_asistente
+        boolean es_ponente
+    }
+
+    INSCRIPCION_SESION {
+        date fecha

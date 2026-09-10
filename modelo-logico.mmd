@@ -1,0 +1,150 @@
+erDiagram
+
+    PERSONA {
+        integer id_persona PK
+        varchar nombre
+        varchar correo UK
+        varchar pais
+    }
+
+    EDICION {
+        integer id_edicion PK
+        varchar nombre
+        integer anio
+        date fecha_inicio
+        date fecha_fin
+        varchar estado_preparacion
+        varchar modalidad
+        integer id_sede FK
+    }
+
+    SEDE {
+        integer id_sede PK
+        varchar nombre
+        varchar direccion
+        varchar ciudad
+    }
+
+    SALA {
+        integer id_sala PK
+        integer id_sede FK
+        varchar nombre
+        integer capacidad
+    }
+
+    SESION {
+        integer id_sesion PK
+        integer id_edicion FK
+        integer id_sala FK
+        varchar titulo
+        text resumen
+        date fecha
+        time hora_inicial
+        time hora_final
+        varchar tipo
+    }
+
+    TRANSMISION {
+        integer id_transmision PK
+        integer id_sesion FK,UK
+        varchar plataforma
+        text enlace
+        varchar codigo_acceso
+    }
+
+    ACREDITACION {
+        integer id_acreditacion PK
+        varchar nombre UK
+        text descripcion
+    }
+
+    INSCRIPCION_EDICION {
+        integer id_inscripcion_edicion PK
+        integer id_persona FK
+        integer id_edicion FK
+        boolean es_asistente
+        boolean es_ponente
+        integer id_acreditacion FK
+    }
+
+    PERFIL_PONENTE {
+        integer id_persona PK,FK
+        text biografia
+    }
+
+    INSCRIPCION_SESION {
+        integer id_inscripcion_sesion PK
+        integer id_inscripcion_edicion FK
+        integer id_sesion FK
+        date fecha_inscripcion
+        varchar estado
+        boolean asistencia
+    }
+
+    ASIGNACION_PONENTE {
+        integer id_sesion PK,FK
+        integer id_persona PK,FK
+        varchar rol_ponente
+        integer orden_programa
+    }
+
+    CHARLA {
+        integer id_sesion PK,FK
+        integer minutos_preguntas
+    }
+
+    TALLER {
+        integer id_sesion PK,FK
+        integer cupo_practico
+        text requisitos_materiales
+    }
+
+    PRERREQUISITO {
+        integer id_sesion PK,FK
+        integer id_sesion_previa PK,FK
+    }
+
+    EMPRESA {
+        integer id_empresa PK
+        varchar nombre UK
+        varchar correo
+        varchar telefono
+    }
+
+    ACUERDO_PATROCINIO {
+        integer id_empresa PK,FK
+        integer id_edicion PK,FK
+        varchar categoria
+        numeric monto
+        date fecha_confirmacion
+    }
+
+    SEDE ||--o{ SALA : contiene
+    SEDE ||--o{ EDICION : utiliza
+
+    EDICION ||--o{ SESION : contiene
+    SALA ||--o{ SESION : aloja
+
+    SESION ||--o| TRANSMISION : tiene
+
+    PERSONA ||--o{ INSCRIPCION_EDICION : realiza
+    EDICION ||--|{ INSCRIPCION_EDICION : recibe
+
+    ACREDITACION ||--o{ INSCRIPCION_EDICION : asigna
+
+    INSCRIPCION_EDICION ||--o{ INSCRIPCION_SESION : registra
+    SESION ||--o{ INSCRIPCION_SESION : recibe
+
+    PERSONA ||--o| PERFIL_PONENTE : posee
+
+    PERFIL_PONENTE ||--o{ ASIGNACION_PONENTE : participa
+    SESION ||--|{ ASIGNACION_PONENTE : asigna
+
+    SESION ||--|| CHARLA : especializa
+    SESION ||--|| TALLER : especializa
+
+    SESION ||--o{ PRERREQUISITO : requiere
+    SESION ||--o{ PRERREQUISITO : es_previa
+
+    EMPRESA ||--o{ ACUERDO_PATROCINIO : firma
+    EDICION ||--o{ ACUERDO_PATROCINIO : recibe

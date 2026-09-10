@@ -1,0 +1,264 @@
+# Análisis de la narrativa y reglas de negocio
+
+## 1. Descripción del dominio
+
+ConectaTech organiza congresos profesionales que pueden ser presenciales, virtuales o híbridos. Cada edición del congreso tiene información propia, como nombre, año, fechas y estado de preparación.
+
+Las ediciones presenciales e híbridas utilizan una sede que contiene varias salas. Las sesiones virtuales pueden realizarse sin una sala física, pero requieren información relacionada con su transmisión.
+
+Las personas pueden participar en una edición como asistentes, ponentes o desempeñando ambos roles. Los asistentes seleccionan un tipo de acreditación y los ponentes mantienen una biografía profesional.
+
+El programa de cada edición está formado por sesiones. Las sesiones pueden ser charlas o talleres y pueden tener sesiones previas como prerrequisitos.
+
+También se registran las inscripciones de los asistentes a las sesiones, la participación de los ponentes y los acuerdos con empresas patrocinadoras.
+
+---
+
+## 2. Entidades principales
+
+### Persona
+Representa a una persona que participa en una edición del congreso.
+
+Atributos:
+- id_persona
+- nombre
+- correo
+- país
+
+### Edición
+Representa una edición específica del congreso.
+
+Atributos:
+- id_edicion
+- nombre
+- año
+- fecha_inicio
+- fecha_fin
+- estado_preparacion
+- modalidad
+
+### Sede
+Representa el lugar físico utilizado por una edición presencial o híbrida.
+
+Atributos:
+- id_sede
+- nombre
+- dirección
+- ciudad
+
+### Sala
+Representa un espacio físico dentro de una sede.
+
+Atributos:
+- id_sala
+- nombre
+- capacidad
+
+### Sesión
+Representa una actividad del programa.
+
+Atributos:
+- id_sesion
+- título
+- resumen
+- fecha
+- hora_inicial
+- hora_final
+- tipo
+
+### Transmisión
+Representa la información necesaria para transmitir una sesión virtual.
+
+Atributos:
+- id_transmision
+- plataforma
+- enlace
+- codigo_acceso
+
+### Acreditación
+Representa el tipo de acreditación disponible para los asistentes.
+
+Atributos:
+- id_acreditacion
+- nombre
+- descripción
+
+### Empresa
+Representa una empresa patrocinadora.
+
+Atributos:
+- id_empresa
+- nombre
+- correo
+- teléfono
+
+---
+
+## 3. Entidades asociativas
+
+### Inscripción a edición
+Relaciona personas con ediciones y permite determinar si una persona participa como asistente, ponente o en ambos roles.
+
+### Inscripción a sesión
+Relaciona asistentes con sesiones y registra la fecha, estado y asistencia.
+
+### Asignación de ponente
+Relaciona ponentes con sesiones y conserva el rol del ponente y el orden de aparición en el programa.
+
+### Acuerdo de patrocinio
+Relaciona empresas patrocinadoras con ediciones y registra categoría, monto y fecha de confirmación.
+
+### Prerrequisito
+Relaciona una sesión con otra sesión que debe completarse previamente.
+
+---
+
+## 4. Relaciones y cardinalidades
+
+- Una edición puede utilizar una sede y una sede puede estar asociada a una edición según la planificación del congreso.
+- Una sede contiene varias salas.
+- Una sala puede contener varias sesiones en diferentes horarios.
+- Una edición contiene muchas sesiones.
+- Una persona puede participar en muchas ediciones.
+- Una edición puede tener muchas personas inscritas.
+- Un asistente puede inscribirse en muchas sesiones.
+- Una sesión puede recibir muchos asistentes.
+- Un ponente puede participar en muchas sesiones.
+- Una sesión puede tener varios ponentes.
+- Una sesión puede tener cero o varios prerrequisitos.
+- Una empresa puede patrocinar varias ediciones.
+- Una edición puede tener varias empresas patrocinadoras.
+
+---
+
+## 5. Reglas de negocio
+
+1. Cada edición debe tener un nombre, año, fecha de inicio, fecha de finalización y estado de preparación.
+
+2. La fecha de inicio de una edición no puede ser posterior a su fecha de finalización.
+
+3. Una edición debe tener una modalidad: presencial, virtual o híbrida.
+
+4. Una edición presencial o híbrida debe utilizar una sede física.
+
+5. Una sesión virtual puede no tener una sala física, pero debe contar con información de transmisión.
+
+6. Una sala debe tener una capacidad mayor que cero.
+
+7. Una sala no puede alojar dos sesiones cuyos horarios se superpongan.
+
+8. Cada persona inscrita en una edición debe desempeñar al menos un rol: asistente o ponente.
+
+9. Una persona puede desempeñar simultáneamente los roles de asistente y ponente dentro de una misma edición.
+
+10. Una sesión debe clasificarse exactamente como charla o taller.
+
+11. Una charla debe registrar los minutos reservados para preguntas.
+
+12. Un taller debe registrar un cupo práctico y los requisitos de materiales.
+
+13. Una sesión no puede ser prerrequisito de sí misma.
+
+14. Una sesión puede requerir una o varias sesiones previas.
+
+15. Una inscripción de una persona a una sesión no puede existir dos veces.
+
+16. Una sesión puede tener varios ponentes y un ponente puede intervenir en varias sesiones.
+
+17. La asignación de un ponente a una sesión debe conservar su rol y orden de aparición.
+
+18. Una empresa puede participar como patrocinadora en varias ediciones.
+
+19. Una misma empresa no puede tener más de un acuerdo vigente para la misma edición.
+
+20. Los montos de patrocinio deben ser mayores que cero.
+
+21. La asistencia a una sesión debe registrarse después de la actividad y debe utilizar valores permitidos.
+
+22. Los correos de las personas deben ser únicos.
+
+---
+
+## 6. Hechos explícitos
+
+Los siguientes elementos aparecen directamente en la narrativa:
+
+- ConectaTech organiza congresos.
+- Los congresos pueden ser presenciales, virtuales o híbridos.
+- Una edición posee nombre, año, fechas y estado.
+- Las sedes contienen varias salas.
+- Las salas tienen nombre y capacidad.
+- Las personas tienen nombre, correo y país.
+- Las personas pueden ser asistentes, ponentes o ambos.
+- Los asistentes tienen un tipo de acreditación.
+- Los ponentes tienen una biografía profesional.
+- Las sesiones tienen título, resumen, fecha y horario.
+- Las sesiones son charlas o talleres.
+- Las charlas tienen tiempo para preguntas.
+- Los talleres tienen cupo práctico y requisitos de materiales.
+- Existen prerrequisitos entre sesiones.
+- Existen inscripciones de asistentes a sesiones.
+- Existen asignaciones de ponentes.
+- Existen empresas patrocinadoras y acuerdos de patrocinio.
+
+---
+
+## 7. Supuestos
+
+1. Una persona puede participar en diferentes ediciones.
+
+2. El correo electrónico de una persona se considera único.
+
+3. Una edición tiene una única sede cuando requiere instalaciones físicas.
+
+4. Una sala pertenece a una sede determinada.
+
+5. Una sesión pertenece a una única edición.
+
+6. Una sesión puede ser presencial, virtual o híbrida de acuerdo con la modalidad de la edición y la planificación del programa.
+
+7. El estado de una inscripción se controla mediante valores previamente definidos.
+
+8. El estado de preparación de una edición también utiliza valores previamente definidos.
+
+---
+
+## 8. Decisiones de diseño
+
+1. Se utiliza una entidad general Persona y relaciones de roles para permitir que una misma persona sea asistente y ponente dentro de una edición.
+
+2. Las características específicas de asistente y ponente se almacenan de forma separada para evitar datos innecesarios en personas que no desempeñan ese rol.
+
+3. La relación entre asistentes y sesiones se representa mediante una entidad asociativa llamada InscripciónSesión porque la relación posee atributos propios.
+
+4. La relación entre ponentes y sesiones se representa mediante AsignaciónPonente porque se necesita almacenar el rol y el orden del ponente.
+
+5. La relación de prerrequisitos se representa de forma recursiva sobre Sesión.
+
+6. Los acuerdos de patrocinio se representan mediante una entidad asociativa porque contienen categoría, monto y fecha de confirmación.
+
+7. Se utilizarán restricciones de PostgreSQL para evitar estados imposibles y proteger la integridad de los datos.
+
+---
+
+## 9. Jerarquías
+
+### Jerarquía de participación
+
+La entidad Persona se especializa en:
+
+- Asistente
+- Ponente
+
+Esta jerarquía es **solapada**, porque una misma persona puede ser asistente y ponente en una misma edición.
+
+La jerarquía es **parcial** respecto a Persona en el sistema general, porque una persona puede existir registrada sin estar todavía asociada a una edición.
+
+### Jerarquía de sesiones
+
+La entidad Sesión se especializa en:
+
+- Charla
+- Taller
+
+Esta jerarquía es **disjunta**, porque una sesión debe ser exactamente una charla o un taller,
